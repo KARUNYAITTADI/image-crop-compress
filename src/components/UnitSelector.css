@@ -1,0 +1,30 @@
+.unit-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.unit-selector label {
+  font-weight: bold;
+  color: #333;
+}
+
+.unit-selector select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.unit-selector select:hover {
+  border-color: #aaa;
+}
+
+.unit-selector select:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
