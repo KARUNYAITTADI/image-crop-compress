@@ -1,29 +1,23 @@
-# TODO - Crop Tool Fixes
+# TODO - CropTool Enhancement
 
-## Tasks:
-- [x] Fix crop selection display issue in CropTool.jsx
-  - [x] Track displayed image dimensions using useEffect
-  - [x] Calculate scaling ratio between original and displayed dimensions
-  - [x] Apply scaling ratio to crop area positioning
-- [x] Add compression functionality for cropped image download
-  - [x] Add quality slider to CropTool component
-  - [x] Update handlePreview to support compression
-  - [x] Update handleDownload to use compression quality
-- [x] Update CropTool.css with quality slider styling
+## Task: Add size display, cancel button, and success popup to CropTool
 
-## Summary of Changes:
+### Files to Edit:
+- [ ] src/components/CropTool.jsx
+- [ ] src/components/CropTool.css
 
-### CropTool.jsx:
-1. Added state for image dimensions (original and displayed)
-2. Added useEffect hooks to track image dimensions and calculate scaling ratio
-3. Modified crop area positioning to use scaled coordinates
-4. Added quality state (default 80%)
-5. Added quality slider in the UI
-6. Updated handlePreview to use compression quality
-7. Updated handleDownload to generate compressed image and download it
+### Changes Required:
 
-### CropTool.css:
-1. Added .quality-group styling for the quality slider
-2. Added range input styling
+1. **CropTool.jsx**:
+   - [ ] Add state for `compressedSize` 
+   - [ ] Add state for `showSuccessPopup`
+   - [ ] Add `formatFileSize` helper function
+   - [ ] Modify `compressImage` to calculate and display sizes
+   - [ ] Add size display section below the image showing original and compressed size
+   - [ ] Add cancel button next to download button
+   - [ ] Add success popup with OK button that clears the image
 
-## Progress: ✅ COMPLETE
+2. **CropTool.css**:
+   - [ ] Add styles for size display section
+   - [ ] Add styles for success popup
+   - [ ] Add styles for cancel button

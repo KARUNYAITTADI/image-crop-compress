@@ -1,0 +1,211 @@
+/* Image Format Converter Styles */
+
+.image-format-converter {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-format-converter h2 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.image-format-converter .tool-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.image-format-converter .error-message {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.image-format-converter .upload-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.image-format-converter .upload-section input[type="file"] {
+  display: none;
+}
+
+.image-format-converter .upload-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.image-format-converter .upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.image-format-converter .file-name {
+  color: #28a745;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.conversion-options {
+  margin: 1.5rem 0;
+}
+
+.format-selection h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.format-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.format-grid label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.format-grid label:hover {
+  border-color: #667eea;
+}
+
+.format-grid label.selected {
+  border-color: #667eea;
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.format-grid input[type="radio"] {
+  display: none;
+}
+
+.format-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.format-ext {
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.quality-selection {
+  margin-bottom: 1.5rem;
+}
+
+.quality-selection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.quality-selection input[type="range"] {
+  width: 100%;
+}
+
+.image-format-converter .convert-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.image-format-converter .convert-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.image-format-converter .convert-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.image-format-converter .result-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.image-format-converter .result-section h3 {
+  color: #28a745;
+  margin-bottom: 1rem;
+}
+
+.preview-container {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.preview-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.size-info {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.size-info .size-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.size-info .size-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.size-info .size-value {
+  color: #333;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.image-format-converter .result-section .download-button {
+  background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.image-format-converter .result-section .download-button:hover {
+  transform: translateY(-2px);
+}

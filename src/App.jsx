@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import CropTool from './components/CropTool';
-import CompressTool from './components/CompressTool';
 import UnitSelector from './components/UnitSelector';
 import { readFileAsDataUrl, isValidImage, getImageDimensions, formatFileSize } from './utils/imageUtils';
 import './styles/App.css';
@@ -52,6 +51,13 @@ function App() {
     setFileSize(compressedSize);
   };
 
+  const handleClearImage = () => {
+    setImage(null);
+    setProcessedImage(null);
+    setFileSize(0);
+    setOriginalDimensions({ width: 0, height: 0 });
+  };
+
   const handleDownload = () => {
     if (!processedImage) return;
     
@@ -76,8 +82,11 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Image Crop & Compress</h1>
-        <p>Crop and compress your images with flexible sizing options</p>
+        <img src="/croptool_icon.png" alt="Logo" className="app-logo" />
+        <div className="header-content">
+          <h1>Image Crop & Compress</h1>
+          <p>Crop and compress your images with flexible sizing options</p>
+        </div>
       </header>
 
       <main className="app-main">
@@ -113,16 +122,12 @@ function App() {
             <div className="tools-section">
               <CropTool 
                 image={image} 
-                onCropComplete={handleCropComplete} 
-              />
-              <CompressTool 
-                image={processedImage} 
-                originalSize={fileSize}
-                onCompressComplete={handleCompressComplete} 
+                onCropComplete={handleCropComplete}
+                onClearImage={handleClearImage}
               />
             </div>
 
-            {!showPreview ? (
+            {/* {!showPreview ? (
               <button onClick={() => setShowPreview(true)} className="show-preview-button">
                 Show Preview
               </button>
@@ -137,7 +142,7 @@ function App() {
                   Hide Preview
                 </button>
               </div>
-            )}
+            )} */}
           </>
         )}
       </main>

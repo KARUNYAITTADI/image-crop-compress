@@ -1,0 +1,6 @@
+# Robots.txt for Image Crop & Compress
+
+User-agent: *
+Allow: /
+
+Sitemap: https://your-domain.com/sitemap.xml

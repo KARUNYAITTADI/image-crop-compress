@@ -1,22 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CropTool.css';
 
-const CropTool = ({ image, onCropComplete }) => {
-  const [cropWidth, setCropWidth] = useState(100);
-  const [cropHeight, setCropHeight] = useState(100);
+const CropTool = ({ image, onCropComplete, onClearImage }) => {
+  const [cropWidth, setCropWidth] = useState(0);
+  const [cropHeight, setCropHeight] = useState(0);
   const [unit, setUnit] = useState('px');
   const [quality, setQuality] = useState(80);
   const [cropArea, setCropArea] = useState({ x: 0, y: 0, width: 100, height: 100 });
   const [previewImage, setPreviewImage] = useState(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const [displayedDimensions, setDisplayedDimensions] = useState({ width: 0, height: 0 });
+  const [compressedSize, setCompressedSize] = useState(0);
+  const [originalSize, setOriginalSize] = useState(0);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const imageRef = useRef(null);
   const containerRef = useRef(null);
 
   // DPI for conversion (assuming 96 DPI)
   const DPI = 96;
 
-  // Get original image dimensions when image changes
+// Get original image dimensions when image changes
   useEffect(() => {
     if (!image) return;
     
@@ -26,19 +29,57 @@ const CropTool = ({ image, onCropComplete }) => {
     img.onload = () => {
       setImageDimensions({ width: img.width, height: img.height });
       
-      // Initialize crop area with default values based on image size
-      const defaultWidth = Math.min(200, img.width);
-      const defaultHeight = Math.min(200, img.height);
+      // Calculate original size (approximate from base64)
+      const head = 'data:image/jpeg;base64,';
+      const size = Math.round((image.length - head.length) * 3 / 4);
+      setOriginalSize(size);
+      
+      // Initialize crop area with full image dimensions as default
       setCropArea({
         x: 0,
         y: 0,
-        width: defaultWidth,
-        height: defaultHeight
+        width: img.width,
+        height: img.height
       });
-      setCropWidth(fromPixels(defaultWidth, unit));
-      setCropHeight(fromPixels(defaultHeight, unit));
+      setCropWidth(fromPixels(img.width, unit));
+      setCropHeight(fromPixels(img.height, unit));
     };
   }, [image]);
+
+  // Update compressed size when quality or crop area changes
+  useEffect(() => {
+    if (!image) return;
+    
+    const img = new Image();
+    img.src = image;
+    
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = cropArea.width;
+      canvas.height = cropArea.height;
+      
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(
+        img,
+        cropArea.x,
+        cropArea.y,
+        cropArea.width,
+        cropArea.height,
+        0,
+        0,
+        cropArea.width,
+        cropArea.height
+      );
+      
+      // Apply compression quality
+      const croppedDataUrl = canvas.toDataURL('image/jpeg', quality / 100);
+      
+      // Calculate compressed size
+      const head = 'data:image/jpeg;base64,';
+      const size = Math.round((croppedDataUrl.length - head.length) * 3 / 4);
+      setCompressedSize(size);
+    };
+  }, [quality, cropArea, image]);
 
   // Track displayed image dimensions
   useEffect(() => {
@@ -285,10 +326,40 @@ const CropTool = ({ image, onCropComplete }) => {
     };
   };
 
-  const handleCrop = () => {
+const handleCrop = () => {
     if (onCropComplete) {
       onCropComplete(cropArea);
     }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const handleCancel = () => {
+    setPreviewImage(null);
+    setCompressedSize(0);
+    setOriginalSize(0);
+    if (onClearImage) {
+      onClearImage();
+    }
+    if (onCropComplete) {
+      onCropComplete(null);
+    }
+  };
+
+  const handleSuccessPopupOk = () => {
+    setShowSuccessPopup(false);
+    handleCancel();
+  };
+
+  const handleDownloadClick = () => {
+    handleDownload();
+    setShowSuccessPopup(true);
   };
 
   // Calculate scaled crop area for display
@@ -381,22 +452,45 @@ const CropTool = ({ image, onCropComplete }) => {
         )}
       </div>
       
-      <div className="crop-controls">
-        <button onClick={handleCrop} disabled={!image}>
+<div className="crop-controls">
+        {/* <button onClick={handleCrop} disabled={!image}>
           Apply Crop
-        </button>
+        </button> */}
         <button onClick={handlePreview} disabled={!image}>
           Preview
         </button>
-        <button onClick={handleDownload} disabled={!image}>
+        <button onClick={handleDownloadClick} disabled={!image}>
           Download Compressed
         </button>
+        <button onClick={handleCancel} disabled={!image} className="cancel-btn">
+          Cancel
+        </button>
       </div>
+      
+      {image && (
+        <div className="size-info">
+          <p>Original Size: {formatFileSize(originalSize)}</p>
+          <p>Compressed Size: {formatFileSize(compressedSize)}</p>
+        </div>
+      )}
       
       {previewImage && (
         <div className="preview-section">
           <h3>Preview (Quality: {quality}%)</h3>
           <img src={previewImage} alt="Cropped preview" className="preview-image" />
+        </div>
+      )}
+      
+      {showSuccessPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Success!</h3>
+            <p>Image compressed and downloaded successfully!</p>
+            <p>Compressed Size: {formatFileSize(compressedSize)}</p>
+            <button onClick={handleSuccessPopupOk} className="popup-ok-btn">
+              OK
+            </button>
+          </div>
         </div>
       )}
     </div>
